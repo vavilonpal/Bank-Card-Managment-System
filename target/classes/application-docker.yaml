@@ -1,0 +1,45 @@
+
+spring:
+  application:
+    name: "bank-cards-service"
+
+  # Postgres
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  #Liquibase
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+server:
+  port: ${SERVER_PORT:8080}
+
+#jwt:
+#  private-key: classpath:${JWT_PRIVATE_KEY:jwt/app.key}
+#  public-key: classpath:${JWT_PUBLIC_KEY:jwt/app.pub}
+#  ttl: ${JWT_TTL:120m}
+
+
+#app:
+#  cors:
+#    allowed-origins:
+#      - {CORS_ALLOWED_ORIGIN}
+#    allowed-methods: GET,POST,PUT,DELETE
+#    allowed-headers: Authorization,Content-Type
+#    allow-credentials: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: debug
+        web: debug
+
+
+#Что нужно сделать:
+#  - Указать настройки подключения к базе данных.
+#  - Указать порт приложения.
+#  - Настроить параметры безопасности и JWT.
+#  - Включить Swagger UI.
