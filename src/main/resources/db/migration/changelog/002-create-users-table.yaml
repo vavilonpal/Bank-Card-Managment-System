@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 12
+      author: sergey
+      changes:
+        - sqlFile:
+            path: ../sql/002-create_users_table.sql
+            relativeToChangelogFile: true

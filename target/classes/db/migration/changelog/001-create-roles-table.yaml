@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 11
+      author: sergey
+      changes:
+        - sqlFile:
+            path: ../sql/001-create_roles_table.sql
+            relativeToChangelogFile: true

@@ -1,8 +1,8 @@
 databaseChangeLog:
   - changeSet:
-      id: 11
+      id: 13
       author: sergey
       changes:
         - sqlFile:
-            path: ../sql/create_roles.sql
+            path: ../sql/003-create_bank_cards_table.sql
             relativeToChangelogFile: true
