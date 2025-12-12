@@ -1,9 +1,7 @@
 package com.example.bankcards.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,18 +10,16 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 
+@Entity
+@Table(name = "bank_cards")
 @Getter
 @Setter
 @Builder
-@Entity
-@Table
+@AllArgsConstructor
+@NoArgsConstructor
 public class BankCard {
     @Id
-    @GeneratedValue
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID id;
 
