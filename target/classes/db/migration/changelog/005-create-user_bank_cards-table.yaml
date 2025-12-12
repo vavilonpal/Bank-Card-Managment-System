@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: 15
-      author: sergey
-      changes:
-        - sqlFile:
-            path: ../sql/005-create_user_bank_cards_table.sql
-            relativeToChangelogFile: true
