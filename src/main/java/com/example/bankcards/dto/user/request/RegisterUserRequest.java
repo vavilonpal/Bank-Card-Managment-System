@@ -1,10 +1,19 @@
 package com.example.bankcards.dto.user.request;
 
+import com.example.bankcards.util.validation.annotation.PasswordMatch;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Builder
+@PasswordMatch
 public class RegisterUserRequest {
 
     @NotBlank(message = "Full name is required")
@@ -31,8 +40,10 @@ public class RegisterUserRequest {
     )
     private String password;
 
-    private String confirmPassword;
+    private String passwordConfirm;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean passwordsIsMatch = false;
 
 
 }
