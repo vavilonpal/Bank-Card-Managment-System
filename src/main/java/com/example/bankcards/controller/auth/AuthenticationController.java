@@ -2,7 +2,10 @@ package com.example.bankcards.controller.auth;
 
 
 import com.example.bankcards.dto.user.request.RegisterUserRequest;
+import com.example.bankcards.dto.user.request.UserAuthenticationRequest;
+import com.example.bankcards.dto.user.response.UserAuthenticationResponse;
 import com.example.bankcards.entity.User;
+import com.example.bankcards.security.AuthenticationService;
 import com.example.bankcards.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +20,21 @@ public class AuthenticationController {
 
 
     private final UserService userService;
+    private final AuthenticationService authenticationService;
+
+    @PostMapping("/login")
+    public ResponseEntity<UserAuthenticationResponse> authenticate(@Validated @RequestBody UserAuthenticationRequest request
+    ) {
+        UserAuthenticationResponse tokenResponse = authenticationService.authenticate(request);
+
+        return ResponseEntity.ok(tokenResponse);
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody @Validated RegisterUserRequest userRequest){
+    public ResponseEntity<String> registerUser(@Validated @RequestBody RegisterUserRequest userRequest) {
         User registeredUser = userService.register(userRequest);
         return ResponseEntity.ok(registeredUser.toString());
     }
 
-    @GetMapping
-    public ResponseEntity<String> getSome(){
-        return ResponseEntity.ok("hello");
-    }
+
 }

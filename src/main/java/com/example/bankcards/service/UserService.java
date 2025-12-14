@@ -18,7 +18,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-
     public User register(RegisterUserRequest request) {
         User user = userMapper.toEntity(request);
         return userRepository.save(user);
