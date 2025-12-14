@@ -31,9 +31,9 @@ public class User {
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false, length = 50)
-    private RoleType role;
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
     @Column(name = "full_name", length = 150)
     private String fullName;

@@ -17,11 +17,11 @@ spring:
     enabled: true
     change-log: classpath:db//migration/changelog/db.changelog-master.yaml
 
-#jwt:
+jwt:
 
-#  private-key: classpath:${JWT_PRIVATE_KEY:jwt/app.key}
-#  public-key: classpath:${JWT_PUBLIC_KEY:jwt/app.pub}
-#  ttl: ${JWT_TTL:120m}
+  private-key: classpath:${JWT_PRIVATE_KEY:jwt/app.key}
+  public-key: classpath:${JWT_PUBLIC_KEY:jwt/app.pub}
+  ttl: ${JWT_TTL:120m}
 server:
   port: 8080
 

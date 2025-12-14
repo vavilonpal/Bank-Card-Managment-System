@@ -9,12 +9,14 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-12-14T01:38:41+0200",
+    date = "2025-12-14T21:41:26+0200",
     comments = "version: 1.6.0.Beta1, compiler: javac, environment: Java 21 (Oracle Corporation)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
 
+    @Autowired
+    private RoleMapper roleMapper;
     @Autowired
     private PasswordMapper passwordMapper;
 
@@ -27,11 +29,11 @@ public class UserMapperImpl implements UserMapper {
         User.UserBuilder user = User.builder();
 
         user.passwordHash( passwordMapper.encode( userRequest.getPassword() ) );
+        user.role( roleMapper.map( userRequest.getRole() ) );
         user.email( userRequest.getEmail() );
         user.fullName( userRequest.getFullName() );
         user.phoneNumber( userRequest.getPhoneNumber() );
 
-        user.role( RoleType.USER );
         user.isActive( true );
 
         return user.build();

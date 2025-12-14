@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -24,8 +25,8 @@ public class Role {
     @Column(nullable = false, unique = true, length = 50)
     private RoleType name;
 
-    @Column(length = 255)
-    private String description;
+    @OneToMany(mappedBy = "role",fetch = FetchType.LAZY)
+    private List<User> users;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
