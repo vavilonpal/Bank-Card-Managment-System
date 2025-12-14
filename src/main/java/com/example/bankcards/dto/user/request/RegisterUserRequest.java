@@ -1,5 +1,6 @@
 package com.example.bankcards.dto.user.request;
 
+import com.example.bankcards.util.enums.RoleType;
 import com.example.bankcards.util.validation.annotation.PasswordMatch;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
@@ -44,6 +45,10 @@ public class RegisterUserRequest {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean passwordsIsMatch = false;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private final RoleType role = RoleType.USER;
+
 
 
 }

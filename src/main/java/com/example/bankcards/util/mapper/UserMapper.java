@@ -28,7 +28,8 @@ public interface UserMapper {
     )
     @Mapping(
             target = "role",
-            expression = "java(RoleType.USER)"
+            source = "role",
+            qualifiedByName = "roleFromEnum"
     )
     @Mapping(target = "isActive", constant = "true")
 

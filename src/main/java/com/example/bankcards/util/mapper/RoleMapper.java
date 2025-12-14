@@ -1,15 +1,21 @@
 package com.example.bankcards.util.mapper;
 
 
+import com.example.bankcards.entity.Role;
+import com.example.bankcards.repository.RoleRepository;
+import com.example.bankcards.service.RoleService;
 import com.example.bankcards.util.enums.RoleType;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class RoleMapper {
+    private final RoleService roleService;
 
-    @Named("defaultUserRole")
-    public RoleType defaultUserRole() {
-        return RoleType.USER;
+    @Named("roleFromEnum")
+    public Role map(RoleType roleType) {
+        return roleService.getByName(RoleType.USER);
     }
 }
