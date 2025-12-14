@@ -1,7 +1,9 @@
 package com.example.bankcards.service;
 
 
+import com.example.bankcards.dto.user.request.RegisterUserRequest;
 import com.example.bankcards.exception.entity.UserNotFoundException;
+import com.example.bankcards.util.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import com.example.bankcards.entity.User;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
+
+    public User register(RegisterUserRequest request) {
+        User user = userMapper.toEntity(request);
+        return userRepository.save(user);
+    }
 
     public User create(User user) {
         return userRepository.save(user);

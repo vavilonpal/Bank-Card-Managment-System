@@ -13,10 +13,12 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
         String password = userRequest.getPassword();
         String passwordConfirm = userRequest.getPasswordConfirm();
 
-        if (password.isBlank() || passwordConfirm.isBlank()){
-            return false;
-        }
         if (!password.equals(passwordConfirm)){
+            // Изменяем дефолтной контекст, чтобы в GlobalErrors вместо error.getObjectName() возвращать "fieldName": "passwordConfirm"
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Passwords do not match")
+                    .addPropertyNode("passwordConfirm")
+                    .addConstraintViolation();
             return false;
         }
         userRequest.setPasswordsIsMatch(true);
