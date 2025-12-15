@@ -61,6 +61,6 @@ public class AdminBankCardsOperationController {
                                               @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size) {
         Page<BankCard> allCards = bankCardsService.getAllCards(search, page, size);
 
-        return allCards.map(bankCardMapper::toResponse);
+        return allCards.map(bankCardMapper::toAdminResponse);
     }
 }

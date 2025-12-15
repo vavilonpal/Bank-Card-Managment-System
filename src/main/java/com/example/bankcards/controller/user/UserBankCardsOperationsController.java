@@ -1,17 +1,27 @@
 package com.example.bankcards.controller.user;
 
 
+import com.example.bankcards.dto.bankcard.request.BlockBankCardRequest;
+import com.example.bankcards.dto.bankcard.request.TransferRequest;
+import com.example.bankcards.dto.bankcard.response.BankCardResponse;
+import com.example.bankcards.dto.bankcard.response.BlockCardResponse;
 import com.example.bankcards.entity.BankCard;
+import com.example.bankcards.entity.CardBlock;
 import com.example.bankcards.service.BankCardsService;
+import com.example.bankcards.service.CardBlockService;
 import com.example.bankcards.service.UserBankCardOperationsService;
+import com.example.bankcards.util.mapper.bankcard.BankCardBlockMapper;
+import com.example.bankcards.util.mapper.bankcard.BankCardMapper;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -22,6 +32,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserBankCardsOperationsController {
     private final UserBankCardOperationsService bankCardOperationsService;
+    private final CardBlockService cardBlockService;
+    private final BankCardBlockMapper bankCardBlockMapper;
+    private final BankCardMapper bankCardMapper;
 
     @GetMapping
     public Page<BankCard> getOwnCards(
@@ -34,24 +47,27 @@ public class UserBankCardsOperationsController {
         return bankCardOperationsService.getOwnCards(searchQuery, page, size);
     }
 
-    @PostMapping("/{cardId}/block")
-    public void blockBankCardRequest(
-            @PathVariable("cardId") UUID bankCardId
-    ) {
-        bankCardOperationsService.blockBankCardRequest(bankCardId, userId);
+    @PostMapping("/block")
+    public ResponseEntity<BlockCardResponse> blockBankCardRequest(@Validated @RequestBody BlockBankCardRequest blockBankCardRequest) {
+        CardBlock blockRequest = cardBlockService.createBlockRequest(blockBankCardRequest);
+        BlockCardResponse response = bankCardBlockMapper.toResponse(blockRequest);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/transfer")
-    public void transferBetweenOwnCards(
-            @RequestParam("fromCardId") UUID fromCardId,
-            @RequestParam("toCardId") UUID toCardId,
-            @RequestParam("amount") BigDecimal amount
-    ) {
-        bankCardOperationsService.transferBetweenOwnCards(fromCardId, toCardId, amount);
+    public ResponseEntity<BankCardResponse> transferBetweenOwnCards(@Validated @RequestBody TransferRequest request) {
+        BankCard fromBankCard = bankCardOperationsService.transferBetweenOwnCards(
+                request.getFromCardId(),
+                request.getToCardId(),
+                request.getAmount());
+
+        BankCardResponse response = bankCardMapper.toResponse(fromBankCard);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{cardId}/balance")
-    public BigDecimal getOwnCardBalance(@PathVariable("cardId") UUID cardId) {
+    public BigDecimal getOwnCardBalance(@PathVariable UUID cardId) {
         return bankCardOperationsService.getOwnCardBalance(cardId);
     }
 
