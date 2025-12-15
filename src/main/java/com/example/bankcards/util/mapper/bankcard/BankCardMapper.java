@@ -10,19 +10,14 @@ import org.mapstruct.Mapping;
 @Mapper(
         componentModel = "spring",
         uses ={
-                UserMapper.class,
                 CvvMapper.class
         },
         imports = BankCardStatus.class
 )
-interface BankCardMapper {
+public interface BankCardMapper {
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
 
-    @Mapping(
-            target = "user",
-            source = "userId",
-            qualifiedByName = "userFromId"
-    )
     @Mapping(
             target = "cvvHash",
             source = "cvv",

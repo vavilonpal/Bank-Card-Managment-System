@@ -1,4 +1,4 @@
-package com.example.bankcards.util.mapper;
+package com.example.bankcards.util.mapper.user;
 
 
 import com.example.bankcards.dto.user.request.RegisterUserRequest;
@@ -37,4 +37,6 @@ public interface UserMapper {
     @Mapping(target = "updatedAt", ignore = true)
 
     User toEntity(RegisterUserRequest userRequest);
+
+
 }

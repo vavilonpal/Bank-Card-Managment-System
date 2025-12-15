@@ -1,8 +1,7 @@
-package com.example.bankcards.util.mapper;
+package com.example.bankcards.util.mapper.user;
 
 
 import com.example.bankcards.entity.Role;
-import com.example.bankcards.repository.RoleRepository;
 import com.example.bankcards.service.RoleService;
 import com.example.bankcards.util.enums.RoleType;
 import lombok.RequiredArgsConstructor;

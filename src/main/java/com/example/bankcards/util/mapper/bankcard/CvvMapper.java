@@ -1,4 +1,4 @@
-package com.example.bankcards.util.mapper.user;
+package com.example.bankcards.util.mapper.bankcard;
 
 
 import lombok.RequiredArgsConstructor;
@@ -8,12 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PasswordMapper {
+public class CvvMapper {
     private final PasswordEncoder passwordEncoder;
 
-    @Named("encodePassword")
-    public String encode(String rawPassword){
-        return passwordEncoder.encode(rawPassword);
+    @Named("encodeCvv")
+    public  String  encode(String cvv){
+        return passwordEncoder.encode(cvv);
     }
 }
-
