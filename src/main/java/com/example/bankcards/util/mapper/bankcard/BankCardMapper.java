@@ -28,4 +28,6 @@ public interface BankCardMapper {
 
     @Mapping(target = "cardNumber", expression = "java(BankCardResponse.maskCardNumber(card.getCardNumber()))")
     BankCardResponse toResponse(BankCard card);
+
+    BankCardResponse toAdminResponse(BankCard card);
 }
