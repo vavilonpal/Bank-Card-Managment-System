@@ -1,10 +1,15 @@
 databaseChangeLog:
-  # Role Table
+  # 001 - Role Table
   - include:
       file: db/migration/changelog/001-create-roles-table.yaml
-  # Users Table
+  # 002 - Users Table
   - include:
       file: db/migration/changelog/002-create-users-table.yaml
-  # Bank Cards Table
+  # 003 - Bank Cards Table
   - include:
       file: db/migration/changelog/003-create-bank_cards-table.yaml
+
+  # 004 - Bank Cards Blocks Table
+  - include:
+      file: db/migration/changelog/004-create-card_blocks-table.yaml
+

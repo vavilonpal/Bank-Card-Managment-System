@@ -2,7 +2,7 @@ package com.example.bankcards.config.security.jwt;
 
 
 import com.example.bankcards.service.UserService;
-import com.example.bankcards.service.auth.JwtService;
+import com.example.bankcards.security.JwtService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;

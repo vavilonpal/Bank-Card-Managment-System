@@ -2,7 +2,7 @@ package com.example.bankcards.service;
 
 
 import com.example.bankcards.entity.Role;
-import com.example.bankcards.exception.RoleNotFoundException;
+import com.example.bankcards.exception.entity.role.RoleNotFoundException;
 import com.example.bankcards.repository.RoleRepository;
 import com.example.bankcards.util.enums.RoleType;
 import lombok.RequiredArgsConstructor;

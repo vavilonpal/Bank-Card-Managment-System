@@ -1,4 +1,4 @@
-package com.example.bankcards.exception;
+package com.example.bankcards.exception.entity.role;
 
 public class RoleNotFoundException extends RuntimeException{
     public RoleNotFoundException() {

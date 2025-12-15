@@ -1,4 +1,4 @@
-package com.example.bankcards.util.mapper;
+package com.example.bankcards.util.mapper.user;
 
 import com.example.bankcards.dto.user.request.RegisterUserRequest;
 import com.example.bankcards.entity.User;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-12-14T21:41:26+0200",
+    date = "2025-12-15T19:45:29+0200",
     comments = "version: 1.6.0.Beta1, compiler: javac, environment: Java 21 (Oracle Corporation)"
 )
 @Component

@@ -2,10 +2,12 @@ package com.example.bankcards.service;
 
 
 import com.example.bankcards.dto.user.request.RegisterUserRequest;
-import com.example.bankcards.exception.entity.UserNotFoundException;
-import com.example.bankcards.util.mapper.UserMapper;
+import com.example.bankcards.exception.entity.user.UserNotFoundException;
+import com.example.bankcards.util.mapper.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import com.example.bankcards.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.bankcards.repository.UserRepository;
 
@@ -32,10 +34,6 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found: " + id));
     }
 
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
-
     public User update(UUID id, User updatedUser) {
         User existing = getById(id);
 
@@ -59,5 +57,9 @@ public class UserService {
     public User getByEmail(String email) {
         return userRepository.findUserByEmail(email)
                 .orElseThrow(()->  new UserNotFoundException("User by email not found: " + email));
+    }
+
+    public Page<User> searchUsers(String search, Pageable pageable) {
+        return userRepository.findAllAndSearch(search, pageable);
     }
 }

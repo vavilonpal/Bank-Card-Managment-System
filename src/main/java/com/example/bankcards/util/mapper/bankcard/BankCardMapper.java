@@ -18,7 +18,6 @@ import org.mapstruct.Mapping;
 public interface BankCardMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
-
     @Mapping(
             target = "cvvHash",
             source = "cvv",

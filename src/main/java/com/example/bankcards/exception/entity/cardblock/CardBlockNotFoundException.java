@@ -1,4 +1,4 @@
-package com.example.bankcards.exception;
+package com.example.bankcards.exception.entity.cardblock;
 
 public class CardBlockNotFoundException extends RuntimeException {
     public CardBlockNotFoundException() {

@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 100
+      author: sergey
+      context: dev,test
+      changes:
+        - sqlFile:
+            path: ../sql/seed/seed_roles.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: 101
+      author: sergey
+      context: dev,test
+      changes:
+        - sqlFile:
+            path: ../sql/seed/seed_users.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: 102
+      author: sergey
+      context: dev,test
+      changes:
+        - sqlFile:
+            path: ../sql/seed/seed_bank_cards.sql
+            relativeToChangelogFile: true
+
+

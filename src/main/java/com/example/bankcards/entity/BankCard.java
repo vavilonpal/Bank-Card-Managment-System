@@ -1,12 +1,13 @@
 package com.example.bankcards.entity;
 
+import com.example.bankcards.util.enums.bankcard.BankCardStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -46,9 +47,15 @@ public class BankCard {
     private Integer expirationYear;
 
     @Column(name = "card_status", nullable = false, length = 50)
-    private String cardStatus;
+    @Enumerated(EnumType.STRING)
+    private BankCardStatus cardStatus;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "bankCard")
+    private List<CardBlock> blockCardRequests;
 }
+
+
