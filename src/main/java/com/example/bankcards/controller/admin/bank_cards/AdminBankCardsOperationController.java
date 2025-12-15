@@ -1,20 +1,36 @@
 package com.example.bankcards.controller.admin.bank_cards;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.bankcards.dto.bankcard.request.BankCardAdditionRequest;
+import com.example.bankcards.dto.bankcard.response.BankCardResponse;
+import com.example.bankcards.entity.BankCard;
+import com.example.bankcards.service.BankCardsService;
+import com.example.bankcards.util.mapper.bankcard.BankCardMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/admin/bank-cards")
-public class BankCardsOperationController {
+@RequiredArgsConstructor
+public class AdminBankCardsOperationController {
+    private final BankCardsService bankCardsService;
+    private final BankCardMapper bankCardMapper;
 
     @PostMapping
-    public ResponseEntity<Void> createCard(
-            @RequestBody @Valid BankCardAdditionRequest request
+    public ResponseEntity<BankCardResponse> createCard(
+            @RequestBody @Validated BankCardAdditionRequest request
     ) {
-        return ResponseEntity.ok().build();
+        BankCard card = bankCardsService.createCard(request);
+
+        return ResponseEntity.ok(bankCardMapper.toResponse(card));
     }
-    
+
     @PatchMapping("/{cardId}/activate")
     public ResponseEntity<Void> activateCard(
             @PathVariable UUID cardId
@@ -41,7 +57,7 @@ public class BankCardsOperationController {
      * Получить все карты (поиск + пагинация)
      */
     @GetMapping
-    public ResponseEntity<Page<BankCard>> getAllCards(
+    public ResponseEntity<Page<BankCardResponse>> getAllCards(
             @RequestParam(required = false) String search,
             Pageable pageable
     ) {
