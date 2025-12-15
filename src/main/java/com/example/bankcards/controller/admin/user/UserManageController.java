@@ -18,7 +18,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/admin/users")
 @RequiredArgsConstructor
-public class UserOperationsController {
+public class UserManageController {
     private final UserService userService;
 
     @PostMapping
