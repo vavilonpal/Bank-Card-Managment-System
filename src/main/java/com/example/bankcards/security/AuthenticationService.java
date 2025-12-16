@@ -35,7 +35,9 @@ public class AuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !(authentication.getPrincipal() instanceof Jwt jwt)) {
-            throw new IllegalStateException("Пользователь не авторизован или токен некорректен");
+            //test data -> delete
+            return UUID.fromString("9d4f6429-e91d-422c-bdce-272897995f6a");
+            //throw new IllegalStateException("Пользователь не авторизован или токен некорректен");
         }
 
         String userIdStr = jwt.getClaim("user_id");
@@ -64,7 +66,7 @@ public class AuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !(authentication.getPrincipal() instanceof Jwt jwt)) {
-            throw new IllegalStateException("Пользователь не авторизован или токен некорректен");
+            return false;
         }
         List<String> authorities = jwt.getClaim("authorities");
         if (authorities == null) {
