@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 15
+      author: sergey
+      changes:
+        - sqlFile:
+            path: ../sql/seed/test_data_db_seed.sql
+            relativeToChangelogFile: true

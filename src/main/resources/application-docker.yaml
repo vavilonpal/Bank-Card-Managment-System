@@ -1,34 +1,36 @@
+server:
+  port: 8080
 
 spring:
   application:
     name: "bank-cards-service"
 
-  # Postgres
   datasource:
-    url: ${DATASOURCE_URL}
+    url: ${DATASOURCE_URL_DOCKER}
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
 
-  #Liquibase
   liquibase:
-    change-log: classpath:/db/changelog/db.changelog-master.yaml
-server:
-  port: ${SERVER_PORT:8080}
+    enabled: true
+    change-log: classpath:db//migration/changelog/db.changelog-master.yaml
 
-#jwt:
-#  private-key: classpath:${JWT_PRIVATE_KEY:jwt/app.key}
-#  public-key: classpath:${JWT_PUBLIC_KEY:jwt/app.pub}
-#  ttl: ${JWT_TTL:120m}
+jwt:
 
+  private-key: classpath:${JWT_PRIVATE_KEY:jwt/app.key}
+  public-key: classpath:${JWT_PUBLIC_KEY:jwt/app.pub}
+  ttl: ${JWT_TTL:120m}
 
-#app:
-#  cors:
-#    allowed-origins:
-#      - {CORS_ALLOWED_ORIGIN}
-#    allowed-methods: GET,POST,PUT,DELETE
-#    allowed-headers: Authorization,Content-Type
-#    allow-credentials: true
+app:
+  cors:
+    allowed-origins: http://localhost:3000
+    allowed-methods: GET,POST,PUT,DELETE
+    allowed-headers: Authorization,Content-Type
+    allow-credentials: true
+
 
 logging:
   level:
@@ -36,10 +38,4 @@ logging:
       springframework:
         security: debug
         web: debug
-
-
-#Что нужно сделать:
-#  - Указать настройки подключения к базе данных.
-#  - Указать порт приложения.
-#  - Настроить параметры безопасности и JWT.
-#  - Включить Swagger UI.
+        data: debug
