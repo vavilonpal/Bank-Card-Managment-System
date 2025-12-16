@@ -18,19 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-
-/*
-    *Пользователь:
-  - Просматривает свои карты (поиск + пагинация)
-  - Запрашивает блокировку карты
-  - Делает переводы между своими картами
-  - Смотрит баланс
-
-    *
-    *
-    *
-*/
-
 @Service
 @RequiredArgsConstructor
 public class UserBankCardOperationsService {
