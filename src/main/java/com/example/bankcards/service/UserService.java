@@ -1,7 +1,7 @@
 package com.example.bankcards.service;
 
 
-import com.example.bankcards.dto.user.request.RegisterUserRequest;
+import com.example.bankcards.dto.user.request.UserPersistRequest;
 import com.example.bankcards.exception.entity.user.UserNotFoundException;
 import com.example.bankcards.util.mapper.user.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.bankcards.repository.UserRepository;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,7 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public User register(RegisterUserRequest request) {
+    public User register(UserPersistRequest request) {
         User user = userMapper.toEntity(request);
         return userRepository.save(user);
     }
@@ -63,11 +62,18 @@ public class UserService {
         return userRepository.findAllAndSearch(search, pageable);
     }
 
-    public boolean isExistsByEmail(String email) {
+    public boolean existsByEmail(String email) {
         return userRepository.existsUserByEmail(email);
     }
 
-    public boolean isExistsByPhoneNumber(String phoneNumber) {
-        return isExistsByPhoneNumber(phoneNumber);
+    public boolean existsByPhoneNumber(String phoneNumber) {
+        return userRepository.existsUserByPhoneNumber(phoneNumber);
+    }
+
+    public boolean existsByEmailAndNotUserId(String email, UUID currentUserId) {
+        return userRepository.existsByEmailAndIdNot(email, currentUserId);
+    }
+    public boolean existsByPhoneNumberAndNotUserId(String phoneNumber, UUID currentUserId) {
+        return userRepository.existsByPhoneNumberAndIdNot(phoneNumber, currentUserId);
     }
 }

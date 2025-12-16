@@ -3,6 +3,7 @@ package com.example.bankcards.controller.admin.bankcards;
 import com.example.bankcards.dto.bankcard.request.BankCardAdditionRequest;
 import com.example.bankcards.dto.bankcard.request.BlockBankCardRequest;
 import com.example.bankcards.dto.bankcard.response.BankCardResponse;
+import com.example.bankcards.dto.bankcard.response.OverallBankCardResponse;
 import com.example.bankcards.entity.BankCard;
 import com.example.bankcards.entity.CardBlock;
 import com.example.bankcards.service.BankCardsService;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/admin/bankcards")
 @RequiredArgsConstructor
-public class AdminBankCardsOperationController {
+public class AdminManageBankCardsController {
     private final BankCardsService bankCardsService;
     private final BankCardMapper bankCardMapper;
     private final CardBlockService cardBlockService;
@@ -56,11 +57,12 @@ public class AdminBankCardsOperationController {
 
 
     @GetMapping
-    public Page<BankCardResponse> getAllCards(@RequestParam( required = false) String search,
-                                              @RequestParam(defaultValue = "0") @Min(0) int page,
-                                              @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size) {
-        Page<BankCard> allCards = bankCardsService.getAllCards(search, page, size);
+    public ResponseEntity<Page<OverallBankCardResponse>> getAllCards(@RequestParam( required = false) String search,
+                                                                     @RequestParam(defaultValue = "0") @Min(0) int page,
+                                                                     @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size) {
+        Page<OverallBankCardResponse> allCardsResponses = bankCardsService.getAllCards(search, page, size)
+                .map((bankCardMapper::toOverallResponse));
 
-        return allCards.map(bankCardMapper::toAdminResponse);
+        return ResponseEntity.ok(allCardsResponses);
     }
 }

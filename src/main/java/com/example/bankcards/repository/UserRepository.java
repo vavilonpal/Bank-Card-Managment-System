@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     boolean existsUserByEmail(String email);
 
+    boolean existsByEmailAndIdNot(String email, UUID id);
     boolean existsUserByPhoneNumber(String phoneNumber);
 
     @Query("SELECT u FROM User u " +
@@ -24,4 +25,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             "OR LOWER(u.email) LIKE LOWER(CONCAT('%', :search, '%')) " +
             "OR LOWER(u.phoneNumber) LIKE LOWER(CONCAT('%', :search, '%'))")
     Page<User> findAllAndSearch(String search, Pageable pageable);
+
+    boolean existsByPhoneNumberAndIdNot(String phoneNumber, UUID currentUserId);
 }

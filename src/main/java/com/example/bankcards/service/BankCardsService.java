@@ -48,9 +48,7 @@ public class BankCardsService {
 
 
     public Page<BankCard> getAllCards(String search, int pageFromClient, int size) {
-        // Начинаем пагинацию с 1, а не с нуля
-        int page = Math.max(0, pageFromClient - 1);
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(pageFromClient, size, Sort.by("createdAt").descending());
         if (search == null) search = "";
 
         return bankCardRepository.findAllAndSearch(search, pageable);

@@ -17,4 +17,9 @@ public class RoleMapper {
     public Role map(RoleType roleType) {
         return roleService.getByName(RoleType.USER);
     }
+
+    @Named("enumFromRole")
+    public RoleType mapToEnum(Role role){
+        return role.getName();
+    }
 }

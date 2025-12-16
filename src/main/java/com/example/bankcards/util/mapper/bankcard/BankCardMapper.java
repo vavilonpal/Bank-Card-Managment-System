@@ -3,6 +3,7 @@ package com.example.bankcards.util.mapper.bankcard;
 
 import com.example.bankcards.dto.bankcard.request.BankCardAdditionRequest;
 import com.example.bankcards.dto.bankcard.response.BankCardResponse;
+import com.example.bankcards.dto.bankcard.response.OverallBankCardResponse;
 import com.example.bankcards.entity.BankCard;
 import com.example.bankcards.util.enums.bankcard.BankCardStatus;
 import org.mapstruct.Mapper;
@@ -29,5 +30,6 @@ public interface BankCardMapper {
     @Mapping(target = "cardNumber", expression = "java(BankCardResponse.maskCardNumber(card.getCardNumber()))")
     BankCardResponse toResponse(BankCard card);
 
-    BankCardResponse toAdminResponse(BankCard card);
+    @Mapping(target = "userId", source = "user.id")
+    OverallBankCardResponse toOverallResponse(BankCard card);
 }

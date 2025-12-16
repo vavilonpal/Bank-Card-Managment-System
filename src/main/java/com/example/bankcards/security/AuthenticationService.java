@@ -45,6 +45,20 @@ public class AuthenticationService {
 
         return UUID.fromString(userIdStr);
     }
+    public UUID getCurrentUserIdOrNull() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !(authentication.getPrincipal() instanceof Jwt jwt)) {
+           return null;
+        }
+
+        String userIdStr = jwt.getClaim("user_id");
+        if (userIdStr == null) {
+            throw new IllegalStateException("JWT не содержит claim 'user_id'");
+        }
+
+        return UUID.fromString(userIdStr);
+    }
 
     public boolean isCurrentUserAdmin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

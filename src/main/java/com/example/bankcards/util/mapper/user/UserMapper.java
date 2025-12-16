@@ -1,7 +1,9 @@
 package com.example.bankcards.util.mapper.user;
 
 
-import com.example.bankcards.dto.user.request.RegisterUserRequest;
+import com.example.bankcards.dto.user.request.UserPersistRequest;
+import com.example.bankcards.dto.user.response.OverallUserResponse;
+import com.example.bankcards.dto.user.response.UserResponse;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.util.enums.RoleType;
 import org.mapstruct.Mapper;
@@ -36,7 +38,15 @@ public interface UserMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
 
-    User toEntity(RegisterUserRequest userRequest);
+    User toEntity(UserPersistRequest userRequest);
 
 
+    UserResponse toResponse(User user);
+
+    @Mapping(
+            target = "role",
+            source = "role",
+            qualifiedByName = "enumFromRole"
+    )
+    OverallUserResponse toOverallResponse(User user);
 }

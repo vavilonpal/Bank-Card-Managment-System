@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @PasswordMatch
-public class RegisterUserRequest {
+public class UserPersistRequest {
 
     @NotBlank(message = "Full name is required")
     @Size(min = 2, max = 150, message = "Full name must be between 2 and 150 characters")

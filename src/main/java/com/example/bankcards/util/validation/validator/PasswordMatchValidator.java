@@ -1,15 +1,15 @@
 package com.example.bankcards.util.validation.validator;
 
+import com.example.bankcards.dto.user.request.UserPersistRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import com.example.bankcards.dto.user.request.RegisterUserRequest;
 import com.example.bankcards.util.validation.annotation.PasswordMatch;
 
 
-public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch, RegisterUserRequest> {
+public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch, UserPersistRequest> {
 
     @Override
-    public boolean isValid(RegisterUserRequest userRequest, ConstraintValidatorContext context) {
+    public boolean isValid(UserPersistRequest userRequest, ConstraintValidatorContext context) {
         String password = userRequest.getPassword();
         String passwordConfirm = userRequest.getPasswordConfirm();
 
