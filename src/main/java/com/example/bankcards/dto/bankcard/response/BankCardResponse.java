@@ -1,9 +1,7 @@
 package com.example.bankcards.dto.bankcard.response;
 
 import com.example.bankcards.util.enums.bankcard.BankCardStatus;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,6 +10,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BankCardResponse {
     private UUID id;
     private String cardNumber;

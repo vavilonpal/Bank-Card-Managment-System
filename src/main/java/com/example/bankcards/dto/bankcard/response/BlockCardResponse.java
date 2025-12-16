@@ -10,4 +10,5 @@ public class BlockCardResponse {
     private Long cardBlockId;
     private String message = "The card blocking request has been successfully submitted";
 
+
 }

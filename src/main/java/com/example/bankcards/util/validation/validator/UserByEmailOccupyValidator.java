@@ -7,11 +7,13 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class UserByEmailOccupyValidator implements ConstraintValidator<EmailNotOccupy, String> {
     private final UserService userService;
     private final AuthenticationService authenticationService;

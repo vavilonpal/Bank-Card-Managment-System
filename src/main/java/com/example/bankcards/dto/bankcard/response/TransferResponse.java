@@ -1,10 +1,7 @@
 package com.example.bankcards.dto.bankcard.response;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,6 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class TransferResponse {
     private BigDecimal transferAmount;
     private BigDecimal fromCardBalance;

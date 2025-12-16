@@ -12,4 +12,9 @@ databaseChangeLog:
   # 004 - Bank Cards Blocks Table
   - include:
       file: db/migration/changelog/004-create-card_blocks-table.yaml
+    # seed
+  - include:
+       file: db/migration/changelog/005-add_test_db_seed.yaml
+
+
 
