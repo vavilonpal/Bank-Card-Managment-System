@@ -46,15 +46,10 @@ public class BankCardsService {
         return bankCardRepository.save(card);
     }
 
-    public List<BankCard> getCardsByUser(UUID userId) {
-        return bankCardRepository.findAllByUserId(userId);
-    }
 
-    public List<BankCard> getAllCards() {
-        return bankCardRepository.findAll();
-    }
-
-    public Page<BankCard> getAllCards(String search, int page, int size) {
+    public Page<BankCard> getAllCards(String search, int pageFromClient, int size) {
+        // Начинаем пагинацию с 1, а не с нуля
+        int page = Math.max(0, pageFromClient - 1);
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         if (search == null) search = "";
 
@@ -80,5 +75,11 @@ public class BankCardsService {
         bankCardRepository.delete(card);
     }
 
+    public boolean isExistsByCardNumber(String cardNumber) {
+        return bankCardRepository.existsBankCardByCardNumber(cardNumber);
+    }
+    public boolean isCardOwner(UUID userId){
+        return bankCardRepository.existsBankCardByUserId(userId);
+    }
 }
 

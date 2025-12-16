@@ -54,7 +54,7 @@ public class BankCard {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "bankCard")
+    @OneToMany(mappedBy = "card")
     private List<CardBlock> blockCardRequests;
 }
 

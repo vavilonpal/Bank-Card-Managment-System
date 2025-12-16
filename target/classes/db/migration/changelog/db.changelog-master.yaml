@@ -13,7 +13,3 @@ databaseChangeLog:
   - include:
       file: db/migration/changelog/004-create-card_blocks-table.yaml
 
-  # 005 - Test Data
-  - include:
-      file: db/migration/changelog/005-insert_seed_data.yaml
-

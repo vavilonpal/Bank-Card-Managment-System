@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-12-15T20:47:16+0200",
+    date = "2025-12-16T00:19:20+0200",
     comments = "version: 1.6.0.Beta1, compiler: javac, environment: Java 21 (Oracle Corporation)"
 )
 @Component
@@ -55,6 +55,26 @@ public class BankCardMapperImpl implements BankCardMapper {
         bankCardResponse.createdAt( card.getCreatedAt() );
 
         bankCardResponse.cardNumber( BankCardResponse.maskCardNumber(card.getCardNumber()) );
+
+        return bankCardResponse.build();
+    }
+
+    @Override
+    public BankCardResponse toAdminResponse(BankCard card) {
+        if ( card == null ) {
+            return null;
+        }
+
+        BankCardResponse.BankCardResponseBuilder bankCardResponse = BankCardResponse.builder();
+
+        bankCardResponse.id( card.getId() );
+        bankCardResponse.cardNumber( card.getCardNumber() );
+        bankCardResponse.cardHolder( card.getCardHolder() );
+        bankCardResponse.cardBalance( card.getCardBalance() );
+        bankCardResponse.expirationMonth( card.getExpirationMonth() );
+        bankCardResponse.expirationYear( card.getExpirationYear() );
+        bankCardResponse.cardStatus( card.getCardStatus() );
+        bankCardResponse.createdAt( card.getCreatedAt() );
 
         return bankCardResponse.build();
     }

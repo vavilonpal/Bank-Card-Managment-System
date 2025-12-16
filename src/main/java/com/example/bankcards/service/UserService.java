@@ -62,4 +62,12 @@ public class UserService {
     public Page<User> searchUsers(String search, Pageable pageable) {
         return userRepository.findAllAndSearch(search, pageable);
     }
+
+    public boolean isExistsByEmail(String email) {
+        return userRepository.existsUserByEmail(email);
+    }
+
+    public boolean isExistsByPhoneNumber(String phoneNumber) {
+        return isExistsByPhoneNumber(phoneNumber);
+    }
 }

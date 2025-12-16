@@ -39,7 +39,7 @@ public class AdminBankCardsOperationController {
         return ResponseEntity.ok(bankCardMapper.toResponse(bankCard));
     }
 
-    @PatchMapping("/{cardId}/block")
+    @PatchMapping("/block")
     public ResponseEntity<String> blockCard(@RequestBody @Validated BlockBankCardRequest blockBankCardRequest) {
         CardBlock blockRequest = cardBlockService.createBlockRequest(blockBankCardRequest);
         cardBlockService.confirmBlockRequest(blockRequest.getId(), blockRequest.getTemporary());
@@ -56,7 +56,7 @@ public class AdminBankCardsOperationController {
 
 
     @GetMapping
-    public Page<BankCardResponse> getAllCards(@RequestParam(required = false) String search,
+    public Page<BankCardResponse> getAllCards(@RequestParam( required = false) String search,
                                               @RequestParam(defaultValue = "0") @Min(0) int page,
                                               @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size) {
         Page<BankCard> allCards = bankCardsService.getAllCards(search, page, size);

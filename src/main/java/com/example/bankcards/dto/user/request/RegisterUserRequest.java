@@ -1,7 +1,9 @@
 package com.example.bankcards.dto.user.request;
 
 import com.example.bankcards.util.enums.RoleType;
+import com.example.bankcards.util.validation.annotation.EmailNotOccupy;
 import com.example.bankcards.util.validation.annotation.PasswordMatch;
+import com.example.bankcards.util.validation.annotation.PhoneNumberNotOccupy;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,11 +28,13 @@ public class RegisterUserRequest {
             regexp = "^\\+?[0-9]{8,15}$",
             message = "Phone number must contain only digits and may start with +"
     )
+    @PhoneNumberNotOccupy(message = "Phone number is occupy")
     private String phoneNumber;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
     @Size(max = 150, message = "Email must be less than 150 characters")
+    @EmailNotOccupy(message = "Email is occupy")
     private String email;
 
     @NotBlank(message = "Password is required")

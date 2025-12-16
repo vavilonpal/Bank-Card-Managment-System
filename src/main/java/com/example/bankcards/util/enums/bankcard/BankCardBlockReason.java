@@ -4,5 +4,6 @@ public enum BankCardBlockReason {
     LOST,
     FRAUD,
     STOLEN,
-    USER_REQUEST
+    USER_REQUEST,
+    SUSPICIOUS_ACTIVITY
 }

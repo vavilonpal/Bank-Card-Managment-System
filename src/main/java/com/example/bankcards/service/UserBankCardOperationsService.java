@@ -2,6 +2,11 @@ package com.example.bankcards.service;
 
 
 import com.example.bankcards.entity.BankCard;
+import com.example.bankcards.exception.BankCardByUserIdNotFoundException;
+import com.example.bankcards.exception.entity.bankcard.BankCardNotFoundException;
+import com.example.bankcards.exception.entity.bankcard.LowBankCardBalanceException;
+import com.example.bankcards.exception.entity.bankcard.NegativeTransferAmountException;
+import com.example.bankcards.exception.entity.bankcard.SameCardTransferException;
 import com.example.bankcards.repository.BankCardRepository;
 import com.example.bankcards.security.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -9,10 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -48,17 +51,36 @@ public class UserBankCardOperationsService {
         return bankCardRepository.findByUserIdAndSearch(currentUserId, search, pageable);
     }
 
+    @Transactional
+    public BankCard transferBetweenOwnCards(UUID fromCardId, UUID toCardId, BigDecimal amount) {
 
-    public void blockBankCard() {
+        BigDecimal ownCardBalance = getOwnCardBalance(fromCardId);
+        if (ownCardBalance.compareTo(amount) < 0) {
+            throw new LowBankCardBalanceException("Low card balance on card by Id: " + fromCardId);
+        }
 
+        UUID currentUserId = authenticationService.getCurrentUserId();
+        BankCard fromCard = getBankCardByUserIdAndCardId(currentUserId, fromCardId);
+        BankCard toCard = getBankCardByUserIdAndCardId(currentUserId, toCardId);
+
+        fromCard.setCardBalance(fromCard.getCardBalance().subtract(amount));
+        toCard.setCardBalance(toCard.getCardBalance().add(amount));
+
+        bankCardRepository.save(fromCard);
+        bankCardRepository.save(toCard);
+
+        return fromCard;
     }
 
-    public void transferBetweenOwnCards(UUID fromCardId, UUID toCardId, BigDecimal amount) {
 
+    public BankCard getBankCardByUserIdAndCardId(UUID userId, UUID cardId) {
+        return bankCardRepository.findBankCardByUserIdAndId(userId, cardId)
+                .orElseThrow(() -> new BankCardByUserIdNotFoundException(String.format("Bank Card not found by this user id: %s and cardId: %s", userId, cardId)));
     }
 
     public BigDecimal getOwnCardBalance(UUID cardId) {
-        return null;
+        return bankCardRepository.getBankCardBalanceById(cardId)
+                .orElseThrow(() -> new BankCardNotFoundException("Bank card not found by id: " + cardId));
     }
 
 

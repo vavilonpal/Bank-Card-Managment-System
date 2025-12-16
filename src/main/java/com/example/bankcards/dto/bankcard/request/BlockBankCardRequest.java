@@ -17,10 +17,6 @@ public class BlockBankCardRequest {
     @NotNull(message = "Card ID is required")
     private UUID cardId;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private UUID requestedBy;
-
-    @NotBlank(message = "Reason is required")
     private BankCardBlockReason reason;
 
     @Size(max = 200, message = "Notes  length limit is 200")

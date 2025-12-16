@@ -4,6 +4,7 @@ package com.example.bankcards.service;
 import com.example.bankcards.dto.bankcard.request.BlockBankCardRequest;
 import com.example.bankcards.entity.BankCard;
 import com.example.bankcards.entity.CardBlock;
+import com.example.bankcards.exception.entity.bankcard.UserIsNotCardOwnerOrAdminForBlockException;
 import com.example.bankcards.exception.entity.cardblock.CardBlockNotFoundException;
 import com.example.bankcards.exception.entity.cardblock.UnsupportedCardBlockOperation;
 import com.example.bankcards.repository.BankCardRepository;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.EnumSet;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -32,10 +34,17 @@ public class CardBlockService {
     private final AuthenticationService authenticationService;
 
     public CardBlock createBlockRequest(BlockBankCardRequest blockBankCardRequest) {
-        CardBlock cardBlock = bankCardBlockMapper.toEntity(blockBankCardRequest);
-        if (blockBankCardRequest.getRequestedBy() == null) {
-            cardBlock.setRequestedBy(authenticationService.getCurrentUserId());
+
+        UUID currentUserId = authenticationService.getCurrentUserId();
+        if (!bankCardsService.isCardOwner(currentUserId) ||
+                !authenticationService.isCurrentUserAdmin()
+        ) {
+            throw new UserIsNotCardOwnerOrAdminForBlockException("For block card you must Owner of card or Admin");
         }
+        CardBlock cardBlock = bankCardBlockMapper.toEntity(blockBankCardRequest);
+
+        cardBlock.setRequestedBy(currentUserId);
+
         cardBlock.setCard(bankCardsService.getCardById(blockBankCardRequest.getCardId()));
 
         return cardBlockRepository.save(cardBlock);

@@ -3,6 +3,7 @@ package com.example.bankcards.dto.bankcard.request;
 
 import com.example.bankcards.entity.User;
 import com.example.bankcards.util.enums.bankcard.BankCardStatus;
+import com.example.bankcards.util.validation.annotation.CardNumberNotExist;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -27,15 +28,12 @@ public class BankCardAdditionRequest {
             regexp = "^[0-9]{16,19}$",
             message = "Card number must contain 16 to 19 digits"
     )
+    @CardNumberNotExist
     private String cardNumber;
 
     @NotNull(message = "Card balance is required")
-    @DecimalMin(
-            value = "0.00",
-            inclusive = true,
-            message = "Card balance cannot be negative"
-    )
     @Digits(integer = 17, fraction = 2, message = "Invalid balance format")
+    @PositiveOrZero(message = "Card must be positive or zero")
     private BigDecimal cardBalance;
 
     @NotBlank(message = "Card holder is required")

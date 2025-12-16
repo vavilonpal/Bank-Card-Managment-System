@@ -2,6 +2,7 @@ package com.example.bankcards.security;
 
 import com.example.bankcards.dto.user.request.UserAuthenticationRequest;
 import com.example.bankcards.dto.user.response.UserAuthenticationResponse;
+import com.example.bankcards.util.enums.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,7 +21,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public UserAuthenticationResponse authenticate(final UserAuthenticationRequest request) {
-        final var  authToken = UsernamePasswordAuthenticationToken
+        final var authToken = UsernamePasswordAuthenticationToken
                 .unauthenticated(request.getEmail(), request.getPassword());
 
         final var authentication = authenticationManager.authenticate(authToken);
@@ -43,4 +45,23 @@ public class AuthenticationService {
 
         return UUID.fromString(userIdStr);
     }
+
+    public boolean isCurrentUserAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !(authentication.getPrincipal() instanceof Jwt jwt)) {
+            throw new IllegalStateException("Пользователь не авторизован или токен некорректен");
+        }
+        List<String> authorities = jwt.getClaim("authorities");
+        if (authorities == null) {
+            return false;
+        }
+        for (String authority : authorities) {
+            if (authority.equals(RoleType.ADMIN.name())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
