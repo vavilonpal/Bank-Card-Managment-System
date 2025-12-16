@@ -1,1 +1,800 @@
 # Здесь будет OpenAPI описание всех доступных эндпоинтов и моделей данных.
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /api/v1/admin/users/{id}:
+    get:
+      tags:
+        - admin-manage-users-controller
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+    put:
+      tags:
+        - admin-manage-users-controller
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPersistRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+    delete:
+      tags:
+        - admin-manage-users-controller
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/admin/users:
+    get:
+      tags:
+        - admin-manage-users-controller
+      operationId: searchUsers
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+            default: ""
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+            default: fullName
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/PageOverallUserResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+    post:
+      tags:
+        - admin-manage-users-controller
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPersistRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/auth/register:
+    post:
+      tags:
+        - authentication-controller
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPersistRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/auth/login:
+    post:
+      tags:
+        - authentication-controller
+      operationId: authenticate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAuthenticationRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/UserAuthenticationResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/user/bankcards:
+    get:
+      tags:
+        - user-bank-cards-operations-controller
+      operationId: getOwnCards
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 5
+        - name: searchQuery
+          in: query
+          schema:
+            type: string
+            default: ""
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/PageBankCardResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/user/bankcards/{cardId}/balance:
+    get:
+      tags:
+        - user-bank-cards-operations-controller
+      operationId: getOwnCardBalance
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/user/bankcards/block:
+    post:
+      tags:
+        - user-bank-cards-operations-controller
+      operationId: blockBankCardRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockBankCardRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/BlockCardResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/user/bankcards/transfer:
+    patch:
+      tags:
+        - user-bank-cards-operations-controller
+      operationId: transferBetweenOwnCards
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/TransferResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/admin/bankcards:
+    get:
+      tags:
+        - admin-manage-bank-cards-controller
+      operationId: getAllCards
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/PageOverallBankCardResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+    post:
+      tags:
+        - admin-manage-bank-cards-controller
+      operationId: createCard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankCardAdditionRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/BankCardResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/admin/bankcards/{cardId}/activate:
+    patch:
+      tags:
+        - admin-manage-bank-cards-controller
+      operationId: activateCard
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/BankCardResponse'
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/admin/bankcards/block:
+    patch:
+      tags:
+        - admin-manage-bank-cards-controller
+      operationId: blockCard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockBankCardRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+  /api/v1/admin/bankcards/{cardId}:
+    delete:
+      tags:
+        - admin-manage-bank-cards-controller
+      operationId: deleteCard
+      parameters:
+        - name: cardId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            "*/*":
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+components:
+  schemas:
+    ValidationErrorResponse:
+      type: object
+      properties:
+        violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Violation'
+    Violation:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        message:
+          type: string
+    UserPersistRequest:
+      type: object
+      required:
+        - email
+        - fullName
+        - password
+        - phoneNumber
+      properties:
+        fullName:
+          type: string
+          minLength: 2
+          maxLength: 150
+        phoneNumber:
+          type: string
+          pattern: '^\\+?[0-9]{8,15}$'
+        email:
+          type: string
+          minLength: 0
+          maxLength: 150
+        password:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$'
+        passwordConfirm:
+          type: string
+        passwordsIsMatch:
+          type: boolean
+          readOnly: true
+        role:
+          type: string
+          enum:
+            - ADMIN
+            - USER
+          readOnly: true
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        fullName:
+          type: string
+        phoneNumber:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    BlockBankCardRequest:
+      type: object
+      required:
+        - cardId
+      properties:
+        cardId:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          enum:
+            - LOST
+            - FRAUD
+            - STOLEN
+            - USER_REQUEST
+            - SUSPICIOUS_ACTIVITY
+        notes:
+          type: string
+          minLength: 0
+          maxLength: 200
+        temporary:
+          type: boolean
+        notifyClient:
+          type: boolean
+    BlockCardResponse:
+      type: object
+      properties:
+        cardBlockId:
+          type: integer
+          format: int64
+        message:
+          type: string
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    UserAuthenticationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    UserAuthenticationResponse:
+      type: object
+      properties:
+        token:
+          type: string
+    BankCardAdditionRequest:
+      type: object
+      required:
+        - userId
+        - cardNumber
+        - cardBalance
+        - cardHolder
+        - cvv
+        - expirationMonth
+        - expirationYear
+      properties:
+        userId:
+          type: string
+          format: uuid
+        cardNumber:
+          type: string
+          pattern: '^[0-9]{16,19}$'
+        cardBalance:
+          type: number
+        cardHolder:
+          type: string
+          minLength: 2
+          maxLength: 150
+        cvv:
+          type: string
+          pattern: '^[0-9]{3}$'
+        expirationMonth:
+          type: integer
+          minimum: 1
+          maximum: 12
+        expirationYear:
+          type: integer
+          minimum: 2024
+        cardStatus:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - BLOCKED
+            - EXPIRED
+            - CLOSED
+            - SUSPENDED
+          readOnly: true
+    BankCardResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        cardNumber:
+          type: string
+        cardHolder:
+          type: string
+        cardBalance:
+          type: number
+        expirationMonth:
+          type: integer
+        expirationYear:
+          type: integer
+        cardStatus:
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - BLOCKED
+            - EXPIRED
+            - CLOSED
+            - SUSPENDED
+        createdAt:
+          type: string
+          format: date-time
+    TransferRequest:
+      type: object
+      properties:
+        fromCardId:
+          type: string
+          format: uuid
+        toCardId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+    TransferResponse:
+      type: object
+      properties:
+        transferAmount:
+          type: number
+        fromCardBalance:
+          type: number
+        toCardBalance:
+          type: number
+        transferTime:
+          type: string
+          format: date-time
+    BalanceResponse:
+      type: object
+      properties:
+        cardNumber:
+          type: string
+        balance:
+          type: number
+    PageableObject:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+        pageSize:
+          type: integer
+        offset:
+          type: integer
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+        empty:
+          type: boolean
+    PageBankCardResponse:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+        totalElements:
+          type: integer
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankCardResponse'
+        number:
+          type: integer
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+        empty:
+          type: boolean
+    OverallUserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        passwordHash:
+          type: string
+        role:
+          type: string
+          enum:
+            - ADMIN
+            - USER
+        fullName:
+          type: string
+        phoneNumber:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    PageOverallUserResponse:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+        totalElements:
+          type: integer
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/OverallUserResponse'
+        number:
+          type: integer
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+        empty:
+          type: boolean
+    OverallBankCardResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        cardBalance:
+          type: number
+        cardNumber:
+          type: string
+        cardHolder:
+          type: string
+        cvvHash:
+          type: string
+        expirationMonth:
+          type: integer
+
