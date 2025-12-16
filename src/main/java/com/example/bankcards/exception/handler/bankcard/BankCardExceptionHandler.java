@@ -1,7 +1,7 @@
 package com.example.bankcards.exception.handler.bankcard;
 
 
-import com.example.bankcards.exception.ApiErrorResponse;
+import com.example.bankcards.dto.error.response.ApiErrorResponse;
 import com.example.bankcards.exception.entity.bankcard.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

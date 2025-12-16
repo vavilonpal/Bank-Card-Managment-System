@@ -4,7 +4,7 @@ package com.example.bankcards.service;
 import com.example.bankcards.dto.bankcard.response.BalanceResponse;
 import com.example.bankcards.dto.bankcard.response.TransferResponse;
 import com.example.bankcards.entity.BankCard;
-import com.example.bankcards.exception.BankCardByUserIdNotFoundException;
+import com.example.bankcards.exception.entity.bankcard.BankCardByUserIdNotFoundException;
 import com.example.bankcards.exception.entity.bankcard.LowBankCardBalanceException;
 import com.example.bankcards.repository.BankCardRepository;
 import com.example.bankcards.security.AuthenticationService;

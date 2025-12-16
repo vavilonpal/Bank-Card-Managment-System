@@ -2,6 +2,7 @@ package com.example.bankcards.config.security;
 
 
 import com.example.bankcards.util.enums.RoleType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -21,30 +22,23 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CorsConfigurationSource corsConfigurationSource;
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         return http
-                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/**").permitAll()
-                ).build();
-    }
-
-
-   /* @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/admin/**").hasAuthority(RoleType.ADMIN.name())
+                        .requestMatchers("/api/v1/user/**").hasAuthority(RoleType.USER.name())
                         .requestMatchers(
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
@@ -61,7 +55,8 @@ public class SecurityConfig {
                         .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
                 )
                 .build();
-    }*/
+    }
+
     @Bean
     public Converter<Jwt, AbstractAuthenticationToken> jwtAuthenticationTokenConverter() {
         JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();

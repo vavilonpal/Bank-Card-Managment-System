@@ -1,4 +1,4 @@
-package com.example.bankcards.exception;
+package com.example.bankcards.dto.error.response;
 
 
 import lombok.AllArgsConstructor;

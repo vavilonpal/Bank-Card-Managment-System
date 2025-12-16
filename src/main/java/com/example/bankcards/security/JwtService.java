@@ -26,7 +26,7 @@ public class JwtService {
         final var claimsSet = JwtClaimsSet.builder()
                 .subject(email)
                 .issuer(issuer)
-                .claim("userId", user.getId())
+                .claim("user_id", user.getId())
                 .claim("authorities", List.of(user.getRole().getName().toString()))
                 .expiresAt(Instant.now().plus(ttl))
                 .build();

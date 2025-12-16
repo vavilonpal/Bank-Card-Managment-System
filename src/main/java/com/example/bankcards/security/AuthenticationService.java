@@ -35,9 +35,7 @@ public class AuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !(authentication.getPrincipal() instanceof Jwt jwt)) {
-            //test data -> delete
-            return UUID.fromString("9d4f6429-e91d-422c-bdce-272897995f6a");
-            //throw new IllegalStateException("Пользователь не авторизован или токен некорректен");
+            throw new IllegalStateException("Пользователь не авторизован или токен некорректен");
         }
 
         String userIdStr = jwt.getClaim("user_id");

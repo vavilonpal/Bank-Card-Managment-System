@@ -1,10 +1,8 @@
 package com.example.bankcards.exception.handler.role;
 
 
-import com.example.bankcards.exception.ApiErrorResponse;
+import com.example.bankcards.dto.error.response.ApiErrorResponse;
 import com.example.bankcards.exception.entity.role.RoleException;
-import com.example.bankcards.exception.entity.role.RoleNotFoundException;
-import com.example.bankcards.exception.entity.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
