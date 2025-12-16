@@ -1,6 +1,7 @@
 package com.example.bankcards.controller.auth;
 
 
+import com.example.bankcards.dto.MessageResponse;
 import com.example.bankcards.dto.user.request.UserPersistRequest;
 import com.example.bankcards.dto.user.request.UserAuthenticationRequest;
 import com.example.bankcards.dto.user.response.UserAuthenticationResponse;
@@ -30,9 +31,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Validated @RequestBody UserPersistRequest userRequest) {
-        User registeredUser = userService.register(userRequest);
-        return ResponseEntity.ok(registeredUser.toString());
+    public ResponseEntity<MessageResponse> registerUser(@Validated @RequestBody UserPersistRequest userRequest) {
+        userService.register(userRequest);
+        return ResponseEntity.ok(new MessageResponse("Successful register!"));
     }
 
 

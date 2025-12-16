@@ -1,9 +1,10 @@
+server:
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
     name: "bank-cards-service"
 
-  # Postgres
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: user
@@ -22,9 +23,13 @@ jwt:
   private-key: classpath:${JWT_PRIVATE_KEY:jwt/app.key}
   public-key: classpath:${JWT_PUBLIC_KEY:jwt/app.pub}
   ttl: ${JWT_TTL:120m}
-server:
-  port: 8080
 
+app:
+  cors:
+    allowed-origins: http://localhost:3000
+    allowed-methods: GET,POST,PUT,DELETE
+    allowed-headers: Authorization,Content-Type
+    allow-credentials: true
 
 
 logging:
@@ -33,3 +38,4 @@ logging:
       springframework:
         security: debug
         web: debug
+        data: debug

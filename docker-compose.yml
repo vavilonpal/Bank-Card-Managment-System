@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_bank_db
+    restart: always
+    environment:
+      POSTGRES_DB: bank_app
+      POSTGRES_USER: bank_user
+      POSTGRES_PASSWORD: bank_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: bank_app
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bank_app
+      SPRING_DATASOURCE_USERNAME: bank_user
+      SPRING_DATASOURCE_PASSWORD: bank_pass
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - db
+
+volumes:
+  db_data:
