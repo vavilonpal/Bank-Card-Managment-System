@@ -1,4 +1,4 @@
-package com.example.bankcards.controller.advice.validation;
+package com.example.bankcards.exception.handler.validation;
 
 import com.example.bankcards.dto.validation.response.ValidationErrorResponse;
 import com.example.bankcards.util.validation.Violation;
@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
 @ControllerAdvice
-public class ValidationErrorControllerAdvice {
+public class ValidationErrorExceptionsHandler {
 
 
     /**
